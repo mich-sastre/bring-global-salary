@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   useFonts,
   Inter_400Regular,
@@ -8,10 +9,20 @@ import {
 } from '@expo-google-fonts/inter';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CountryProvider } from './src/context';
 import { OnboardingWelcomeScreen } from './src/screens/OnboardingWelcomeScreen';
+import { FlowInputScreen } from './src/screens/FlowInputScreen';
+import { FlowBankSelectionScreen } from './src/screens/FlowBankSelectionScreen';
+import { FlowConfirmationScreen } from './src/screens/FlowConfirmationScreen';
+import { FlowSuccessScreen } from './src/screens/FlowSuccessScreen';
+import { FlowTrackerScreen } from './src/screens/FlowTrackerScreen';
+import type { RootStackParamList } from './src/navigation/types';
 
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -31,11 +42,20 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <CountryProvider>
         <StatusBar style="dark" />
-        <OnboardingWelcomeScreen />
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Onboarding" component={OnboardingWelcomeScreen} />
+            <Stack.Screen name="FlowInput" component={FlowInputScreen} />
+            <Stack.Screen name="FlowBankSelection" component={FlowBankSelectionScreen} />
+            <Stack.Screen name="FlowConfirmation" component={FlowConfirmationScreen} />
+            <Stack.Screen name="FlowSuccess" component={FlowSuccessScreen} />
+            <Stack.Screen name="FlowTracker" component={FlowTrackerScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </CountryProvider>
-    </View>
+    </GestureHandlerRootView>
   );
 }

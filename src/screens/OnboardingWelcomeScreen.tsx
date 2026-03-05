@@ -1,133 +1,153 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Dimensions,
-  PanResponder,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Carousel from 'react-native-reanimated-carousel';
+import Animated, { interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import type { SharedValue } from 'react-native-reanimated';
+import { BlurView } from 'expo-blur';
 import { useCountry } from '../context/CountryContext';
-import { BenefitCard, CARD_WIDTH } from '../components/BenefitCard';
+import {
+  BenefitCard,
+  CARD_WIDTH,
+  CARD_HEIGHT,
+} from '../components/BenefitCard';
 import { OnboardingNavBar } from '../components/OnboardingNavBar';
 import { OnboardingHero } from '../components/OnboardingHero';
-import {
-  colors,
-  spacing,
-  navPaddingHorizontal,
-} from '../theme';
+import { PrimaryButton } from '../components/PrimaryButton';
+import { colors, spacing, navPaddingHorizontal } from '../theme';
+import type { RootStackParamList } from '../navigation/types';
 
-/** Cuántos px de la siguiente/anterior card se ven (peek) detrás de la activa. */
-const CARD_PEEK = 38;
+type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
+
 const PAGE_DOT_SIZE_ACTIVE = 8;
 const PAGE_DOT_SIZE_INACTIVE = 4;
-const SWIPE_THRESHOLD = 50;
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
-/** Pon en true para ver la estructura de la pantalla con bordes rojos. */
-const LAYOUT_DEBUG_STROKES = true;
-const stroke = LAYOUT_DEBUG_STROKES ? { borderWidth: 1, borderColor: 'red' } : {};
-
-const BENEFITS = [
-  { id: '1', title: 'Benefit #1 / feature', description: 'Description', placeholderColor: '#9032EB' },
-  { id: '2', title: 'Benefit #2 / feature', description: 'Description', placeholderColor: '#7B2FBF' },
-  { id: '3', title: 'Benefit #3 / feature', description: 'Description', placeholderColor: '#6B28A3' },
+const DEFAULT_BENEFITS = [
+  { title: 'Benefit #1 / feature', description: 'Description' },
+  { title: 'Benefit #2 / feature', description: 'Description' },
+  { title: 'Benefit #3 / feature', description: 'Description' },
 ];
 
-export function OnboardingWelcomeScreen() {
+const CARD_VISUALS = [
+  { color: '#9032EB', imageSource: require('../../assets/benefit-card-1.png') },
+  { color: '#7B2FBF', imageSource: require('../../assets/benefit-card-2.png') },
+  { color: '#6B28A3', imageSource: require('../../assets/benefit-card-3.png') },
+];
+
+type BenefitItem = {
+  title: string;
+  description: string;
+  color: string;
+  imageSource: ReturnType<typeof require>;
+};
+
+function CardSlide({ item, animationValue }: { item: BenefitItem; animationValue: SharedValue<number> }) {
+  const containerStyle = useAnimatedStyle(() => {
+    const borderRadius = interpolate(
+      Math.abs(animationValue.value),
+      [0, 0.3, 1],
+      [24, 16, 16],
+    );
+    return { borderRadius, overflow: 'hidden' as const };
+  });
+
+  const blurStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      Math.abs(animationValue.value),
+      [0, 0.3, 1],
+      [0, 1, 1],
+    );
+    return { opacity };
+  });
+
+  return (
+    <View style={styles.cardItem}>
+      <Animated.View style={containerStyle}>
+        <BenefitCard
+          title={item.title}
+          description={item.description}
+          placeholderColor={item.color}
+          imageSource={item.imageSource}
+          compactLevel={0}
+        />
+        <Animated.View style={[StyleSheet.absoluteFill, blurStyle]}>
+          <BlurView intensity={25} tint="dark" style={StyleSheet.absoluteFill} />
+        </Animated.View>
+      </Animated.View>
+    </View>
+  );
+}
+
+export function OnboardingWelcomeScreen({ navigation }: Props) {
   const { config } = useCountry();
   const { copy } = config;
   const [activeIndex, setActiveIndex] = useState(0);
-  const screenWidth = Dimensions.get('window').width;
-  const centerX = screenWidth / 2;
-  /** Desplazamiento en px de cada card respecto a la activa: anterior a la izquierda, siguiente a la derecha (peek 38). */
-  const getCardLeft = (index: number) => {
-    const offset = index - activeIndex;
-    if (offset === 0) return centerX - CARD_WIDTH / 2;
-    if (offset === 1) return centerX + CARD_WIDTH / 2 - CARD_PEEK;
-    if (offset === -1) return centerX - CARD_WIDTH / 2 - (CARD_WIDTH - CARD_PEEK);
-    return centerX - CARD_WIDTH / 2 + offset * (CARD_WIDTH - CARD_PEEK);
-  };
-  const getCardZIndex = (index: number) => {
-    const offset = Math.abs(index - activeIndex);
-    return 10 - offset;
-  };
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => false,
-      onMoveShouldSetPanResponder: (_, g) => Math.abs(g.dx) > 20,
-      onPanResponderRelease: (_, gestureState) => {
-        const { dx } = gestureState;
-        if (dx < -SWIPE_THRESHOLD) {
-          setActiveIndex((i) => Math.min(i + 1, BENEFITS.length - 1));
-        } else if (dx > SWIPE_THRESHOLD) {
-          setActiveIndex((i) => Math.max(0, i - 1));
-        }
-      },
-    })
-  ).current;
+  const textSource = copy.benefits ?? DEFAULT_BENEFITS;
+  const benefits: BenefitItem[] = CARD_VISUALS.map((visual, i) => ({
+    ...visual,
+    title: textSource[i]?.title ?? DEFAULT_BENEFITS[i].title,
+    description: textSource[i]?.description ?? DEFAULT_BENEFITS[i].description,
+  }));
 
   return (
-    <View style={[styles.container, stroke]}>
-      {/* Contenedor 1: solo back + dropdown */}
+    <View style={styles.container}>
       <View style={styles.navContainer}>
         <OnboardingNavBar />
       </View>
-      {/* Contenedor 2: solo título + subtítulo */}
       <View style={styles.heroContainer}>
-        <OnboardingHero
-          title={copy.welcomeTitle}
-          subtitle={copy.welcomeDescription}
+        <OnboardingHero title={copy.welcomeTitle} subtitle={copy.welcomeDescription} />
+      </View>
+
+      <View style={styles.carouselWrap}>
+        <Carousel
+          width={350}
+          height={CARD_HEIGHT}
+          style={{ width: SCREEN_WIDTH, alignSelf: 'center' }}
+          data={benefits}
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingScale: 1,
+            parallaxScrollingOffset: 310,
+            parallaxAdjacentItemScale: 0.85,
+          }}
+          scrollAnimationDuration={400}
+          // @ts-expect-error inverted works at runtime in v4
+          inverted
+          onSnapToItem={setActiveIndex}
+          renderItem={({ item, animationValue }) => (
+            <CardSlide item={item} animationValue={animationValue} />
+          )}
         />
       </View>
 
-      {/* Carrusel tipo pila: una card encima, las demás detrás; swipe cambia la activa */}
-      <View style={[styles.carouselWrap, stroke]} {...panResponder.panHandlers}>
-        {BENEFITS.map((item, index) => (
+      <View style={styles.pageControl}>
+        {benefits.map((_, i) => (
           <View
-            key={item.id}
-            style={[
-              styles.stackCard,
-              {
-                left: getCardLeft(index),
-                zIndex: getCardZIndex(index),
-                opacity: index === activeIndex ? 1 : 0.92,
-                transform: [{ translateY: index === activeIndex ? 0 : 6 }],
-              },
-            ]}
-            pointerEvents={index === activeIndex ? 'auto' : 'none'}
-          >
-            <BenefitCard
-              title={item.title}
-              description={item.description}
-              placeholderColor={item.placeholderColor}
-            />
-          </View>
-        ))}
-      </View>
-
-      {/* Page control dots */}
-      <View style={[styles.pageControl, stroke]}>
-        {BENEFITS.map((_, index) => (
-          <View
-            key={index}
+            key={i}
             style={[
               styles.dot,
               {
-                width: index === activeIndex ? PAGE_DOT_SIZE_ACTIVE : PAGE_DOT_SIZE_INACTIVE,
-                height: index === activeIndex ? PAGE_DOT_SIZE_ACTIVE : PAGE_DOT_SIZE_INACTIVE,
-                borderRadius: index === activeIndex ? PAGE_DOT_SIZE_ACTIVE / 2 : PAGE_DOT_SIZE_INACTIVE / 2,
-                backgroundColor: index === activeIndex ? '#1f0230' : 'rgba(31,2,48,0.2)',
+                width: i === activeIndex ? PAGE_DOT_SIZE_ACTIVE : PAGE_DOT_SIZE_INACTIVE,
+                height: i === activeIndex ? PAGE_DOT_SIZE_ACTIVE : PAGE_DOT_SIZE_INACTIVE,
+                borderRadius: i === activeIndex ? PAGE_DOT_SIZE_ACTIVE / 2 : PAGE_DOT_SIZE_INACTIVE / 2,
+                backgroundColor: i === activeIndex ? '#1f0230' : 'rgba(31,2,48,0.2)',
               },
             ]}
           />
         ))}
       </View>
 
-      {/* CTA */}
-      <View style={[styles.footer, stroke]}>
-        <View style={[styles.cta, stroke]}>
-          <Text style={styles.ctaText}>{copy.connectBankCta}</Text>
-        </View>
+      <View style={styles.footer}>
+        <PrimaryButton
+          label={copy.connectBankCta}
+          onPress={() => navigation.navigate('FlowInput')}
+        />
       </View>
     </View>
   );
@@ -152,13 +172,13 @@ const styles = StyleSheet.create({
   },
   carouselWrap: {
     flex: 1,
-    position: 'relative',
-    minHeight: 400,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  stackCard: {
-    position: 'absolute',
-    top: 0,
-    width: CARD_WIDTH,
+  cardItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pageControl: {
     flexDirection: 'row',
@@ -171,18 +191,5 @@ const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: navPaddingHorizontal,
     paddingBottom: spacing.xl + 8,
-  },
-  cta: {
-    backgroundColor: colors.primary,
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.lg,
-    borderRadius: 64,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  ctaText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#ffffff',
   },
 });
