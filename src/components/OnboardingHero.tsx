@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.x5,
     gap: spacing.x2,
   },
-  /** [Magic] Title/Medium – Font Display, 500, 28px, 120% line height */
+  /** [Magic] Title/Medium – Font Display, 600, 28px, 120% line height */
   title: {
-    fontFamily: fonts.display,
+    fontFamily: fonts.label,
     fontSize: 28,
     color: '#1f0230',
     lineHeight: 33.6,

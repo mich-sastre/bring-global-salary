@@ -5,6 +5,7 @@ import { NavBackIcon } from './icons/NavBackIcon';
 import { headerRowPaddingVertical } from '../theme';
 
 type OnboardingNavBarProps = {
+  onBack?: () => void;
   style?: ViewStyle;
 };
 
@@ -12,13 +13,13 @@ type OnboardingNavBarProps = {
  * Parte 1 del header: barra con ícono atrás + selector de país.
  * Separado para poder reutilizarlo y mantener la estructura clara.
  */
-export function OnboardingNavBar({ style }: OnboardingNavBarProps) {
+export function OnboardingNavBar({ onBack, style }: OnboardingNavBarProps) {
   return (
     <View style={[styles.header, style]}>
       <View style={styles.dropdownCenter} pointerEvents="box-none">
         <CountrySelector />
       </View>
-      <Pressable style={styles.backButton} hitSlop={12}>
+      <Pressable style={styles.backButton} hitSlop={12} onPress={onBack}>
         <NavBackIcon size={24} opacity={1} />
       </Pressable>
     </View>

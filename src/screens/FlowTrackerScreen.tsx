@@ -10,7 +10,7 @@ import type { RootStackParamList } from '../navigation/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'FlowTracker'>;
 
-const LAYOUT_DEBUG = true;
+const LAYOUT_DEBUG = false;
 const stroke = LAYOUT_DEBUG ? { borderWidth: 1, borderColor: 'red' } : {};
 
 const TIMELINE_STEPS = [
@@ -93,14 +93,12 @@ export function FlowTrackerScreen({ navigation }: Props) {
             return (
               <View key={index} style={[styles.timelineStep, stroke]}>
                 <View style={[styles.bulletCol, stroke]}>
-                  {!isFirst && (
-                    <View
-                      style={[
-                        styles.trackTop,
-                        { backgroundColor: isDone ? colors.primary : 'rgba(0,0,0,0.12)' },
-                      ]}
-                    />
-                  )}
+                  <View
+                    style={[
+                      styles.trackTop,
+                      { backgroundColor: isFirst ? 'transparent' : isDone ? colors.primary : 'rgba(0,0,0,0.12)' },
+                    ]}
+                  />
                   <View
                     style={[
                       styles.bullet,
