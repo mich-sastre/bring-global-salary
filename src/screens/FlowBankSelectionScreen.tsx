@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     gap: spacing.x2,
   },
   title: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 28,
     lineHeight: 33.6,
     letterSpacing: -0.84,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { colors, spacing } from '../theme';
+import { colors, fonts, spacing } from '../theme';
 
 export const CARD_WIDTH = 270;
 export const CARD_HEIGHT = 372;
@@ -114,15 +114,17 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   stripTitle: {
+    fontFamily: fonts.label,
     fontSize: 16,
-    fontWeight: '600',
     color: '#ffffff',
+    lineHeight: 20.8,
     letterSpacing: -0.16,
   },
   stripDescription: {
+    fontFamily: fonts.text,
     fontSize: 14,
     color: '#ffffff',
-    letterSpacing: -0.14,
     lineHeight: 21,
+    letterSpacing: -0.14,
   },
 });

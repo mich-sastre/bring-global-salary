@@ -30,12 +30,12 @@ export const headerRowPaddingVertical = 10;
 /** Altura del área del header/nav en Figma (content 375 x 108). */
 export const headerContentHeight = 108;
 
-/** Fuentes cargadas con expo-font (Inter por defecto; luego se puede cambiar a Nu Sans). */
+/** Fuentes Graphik — tipografía del design system Nu. */
 export const fonts = {
   /** Título / Display – Medium 500 */
-  display: 'Inter_500Medium',
+  display: 'Graphik-Medium',
   /** Cuerpo / Text – Regular 400 */
-  text: 'Inter_400Regular',
+  text: 'Graphik-Regular',
   /** Labels / Semibold 600 */
-  label: 'Inter_600SemiBold',
+  label: 'Graphik-Semibold',
 } as const;

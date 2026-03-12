@@ -165,14 +165,14 @@ const styles = StyleSheet.create({
     gap: spacing.x2,
   },
   sectionTitle: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 24,
     lineHeight: 28.8,
-    letterSpacing: -0.48,
+    letterSpacing: -0.72,
     color: '#AE77E7',
   },
   screenTitle: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 28,
     lineHeight: 33.6,
     letterSpacing: -0.84,
@@ -188,17 +188,17 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   cardLogo: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 28,
     color: '#ffffff',
-    letterSpacing: -0.56,
+    letterSpacing: -0.84,
   },
   cardLabel: {
     fontFamily: fonts.display,
     fontSize: 12,
     lineHeight: 15.6,
     color: '#ffffff',
-    letterSpacing: 0,
+    letterSpacing: 0.12,
   },
   pinContainer: {
     marginTop: -20,

@@ -269,10 +269,10 @@ const styles = StyleSheet.create({
   },
   nuText: {
     color: '#820ad1',
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 24,
-    lineHeight: 24,
-    letterSpacing: -0.24,
+    lineHeight: 28.8,
+    letterSpacing: -0.72,
   },
   textWrap: {
     marginLeft: spacing.x4,

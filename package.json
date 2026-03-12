@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.4.2",
+    "@nubank/nuds-vibecode-react-native": "file:../project-ignition-library-nuds/nubank-nuds-vibecode-react-native-0.5.0.tgz",
     "@react-native-async-storage/async-storage": "^3.0.1",
     "@react-navigation/native": "^7.1.33",
     "@react-navigation/native-stack": "^7.14.4",

@@ -31,22 +31,20 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.x5,
     gap: spacing.x2,
   },
-  /** [Magic] Title/Medium – Font Display, 600, 28px, 120% line height */
   title: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 28,
     color: '#1f0230',
     lineHeight: 33.6,
-    letterSpacing: 0,
+    letterSpacing: -0.84,
     textAlign: 'center',
   },
-  /** [Magic] Subtitle/Medium/Default – Font Text, 400, 18px, 130% line height */
   subtitle: {
     fontFamily: fonts.text,
     fontSize: 18,
     color: 'rgba(31,2,48,0.62)',
     lineHeight: 23.4,
-    letterSpacing: 0,
+    letterSpacing: -0.18,
     textAlign: 'center',
   },
 });

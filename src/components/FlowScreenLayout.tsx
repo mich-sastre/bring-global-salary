@@ -52,17 +52,17 @@ const styles = StyleSheet.create({
     gap: spacing.x2,
   },
   title: {
-    fontFamily: fonts.label,
+    fontFamily: fonts.display,
     fontSize: 28,
     color: 'rgba(0,0,0,0.96)',
     lineHeight: 33.6,
-    letterSpacing: 0,
+    letterSpacing: -0.84,
   },
   subtitle: {
     fontFamily: fonts.text,
     fontSize: 18,
     color: 'rgba(0,0,0,0.64)',
     lineHeight: 23.4,
-    letterSpacing: 0,
+    letterSpacing: -0.18,
   },
 });

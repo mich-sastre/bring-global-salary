@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.label,
     fontSize: 16,
     color: '#ffffff',
-    letterSpacing: 0,
+    lineHeight: 20.8,
+    letterSpacing: -0.16,
   },
   labelDisabled: {
     color: 'rgba(17,17,17,0.32)',

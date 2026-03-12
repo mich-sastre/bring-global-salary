@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.label,
     fontSize: 16,
     lineHeight: 20.8,
-    letterSpacing: 0,
+    letterSpacing: -0.16,
     color: colors.text,
     flex: 1,
     textAlign: 'center',
@@ -116,8 +116,10 @@ const styles = StyleSheet.create({
     maxHeight: '80%',
   },
   modalTitle: {
+    fontFamily: fonts.label,
     fontSize: 18,
-    fontWeight: '600',
+    lineHeight: 23.4,
+    letterSpacing: -0.18,
     color: colors.text,
     marginBottom: spacing.md,
   },
@@ -133,7 +135,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(130,10,209,0.12)',
   },
   optionText: {
+    fontFamily: fonts.text,
     fontSize: 16,
+    lineHeight: 20.8,
+    letterSpacing: -0.16,
     color: colors.text,
   },
   optionTextActive: {
@@ -146,7 +151,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   closeButtonText: {
+    fontFamily: fonts.label,
     fontSize: 16,
+    lineHeight: 20.8,
+    letterSpacing: -0.16,
     color: colors.primary,
   },
 });

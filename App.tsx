@@ -1,12 +1,7 @@
 import { useCallback } from 'react';
 import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {
-  useFonts,
-  Inter_400Regular,
-  Inter_500Medium,
-  Inter_600SemiBold,
-} from '@expo-google-fonts/inter';
+import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -26,9 +21,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    Inter_400Regular,
-    Inter_500Medium,
-    Inter_600SemiBold,
+    'Graphik-Regular': require('./assets/fonts/Graphik-Regular-Trial.otf'),
+    'Graphik-Medium': require('./assets/fonts/Graphik-Medium-Trial.otf'),
+    'Graphik-Semibold': require('./assets/fonts/Graphik-Semibold-Trial.otf'),
   });
 
   const onLayoutRootView = useCallback(() => {
