@@ -11,7 +11,10 @@ export type RootStackParamList = {
   PinwheelMock: undefined;
   FlowBankSelection: undefined;
   FlowConfirmation: { inputValue?: string };
+  FlowConfirmationV3: { inputValue?: string };
   FlowConfirmationUS: undefined;
   FlowSuccess: undefined;
+  PinChallengeV3: undefined;
   FlowTracker: undefined;
+  FlowTrackerV3: undefined;
 };

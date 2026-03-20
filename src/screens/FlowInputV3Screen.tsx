@@ -6,7 +6,7 @@ import {
   TopBar,
   NText,
   TextField,
-  NextBottomBar,
+  Button,
   EyeSparkleIcon,
   useNuDSTheme,
 } from '@nubank/nuds-vibecode-react-native';
@@ -80,10 +80,30 @@ export function FlowInputV3Screen({ navigation }: Props) {
         </View>
       </View>
 
-      <NextBottomBar
-        onPress={() => navigation.navigate('FlowConfirmation', { inputValue: value })}
-        disabled={!isValid}
-      />
+      <View style={{ paddingHorizontal: theme.spacing[4], paddingVertical: theme.spacing[5] }}>
+        {isValid ? (
+          <Button
+            label="Continuar"
+            variant="primary"
+            expanded
+            onPress={() => navigation.navigate('FlowConfirmationV3', { inputValue: value })}
+          />
+        ) : (
+          <View
+            style={{
+              height: 48,
+              borderRadius: 9999,
+              backgroundColor: theme.color.surface.disabled,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <NText variant="labelSmallStrong" color={theme.color.content.disabled}>
+              Continuar
+            </NText>
+          </View>
+        )}
+      </View>
     </Box>
   );
 }

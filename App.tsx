@@ -23,6 +23,9 @@ import { DepositScreen } from './src/screens/DepositScreen';
 import { MenuScreen } from './src/screens/MenuScreen';
 import { OnboardingV3Screen } from './src/screens/OnboardingV3Screen';
 import { FlowInputV3Screen } from './src/screens/FlowInputV3Screen';
+import { FlowConfirmationV3Screen } from './src/screens/FlowConfirmationV3Screen';
+import { PinChallengeV3Screen } from './src/screens/PinChallengeV3Screen';
+import { FlowTrackerV3Screen } from './src/screens/FlowTrackerV3Screen';
 import type { RootStackParamList } from './src/navigation/types';
 
 SplashScreen.preventAutoHideAsync();
@@ -69,6 +72,9 @@ export default function App() {
               <Stack.Screen name="Onboarding" component={OnboardingWelcomeScreen} />
               <Stack.Screen name="OnboardingV3" component={OnboardingV3Screen} />
               <Stack.Screen name="FlowInputV3" component={FlowInputV3Screen} />
+              <Stack.Screen name="FlowConfirmationV3" component={FlowConfirmationV3Screen} />
+              <Stack.Screen name="PinChallengeV3" component={PinChallengeV3Screen} />
+              <Stack.Screen name="FlowTrackerV3" component={FlowTrackerV3Screen} />
               <Stack.Screen name="OnboardingUS" component={OnboardingWelcomeScreenUS} />
               <Stack.Screen name="FlowInput" component={FlowInputScreen} />
               <Stack.Screen name="FlowInputUS" component={FlowInputScreenUS} />
